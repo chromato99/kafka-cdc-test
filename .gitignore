@@ -1,0 +1,3 @@
+# Downladed connector libs for test
+confluentinc-kafka-connect-jdbc-*
+mysql-connector-j-*
