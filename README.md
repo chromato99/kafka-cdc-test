@@ -9,11 +9,10 @@ This is a test code for CDC for DB backup in MySQL to MySQL.
 ### 1. Start docker compose
 
 ```zsh
-docker-compose -f ./docker-compose-single.yml up -d
-
-or
-
 docker-compose -f ./docker-compose-distributed.yml up -d
+
+# or for single mode
+docker-compose -f ./docker-compose-single.yml up -d
 ```
 
 ### 2. Set Connector by REST API
@@ -45,6 +44,9 @@ POST: localhost:8083/connectors
   }
 }
 ```
+
+![Screenshot from 2023-04-20 10-03-59](https://user-images.githubusercontent.com/20539422/233231369-4d72506c-f3d1-413e-91e0-007653f9389a.png)
+
 
 <b>Sink Connector</b>
 
@@ -86,10 +88,14 @@ POST: localhost:8083/connectors
 }
 ```
 
+![Screenshot from 2023-04-20 10-04-14](https://user-images.githubusercontent.com/20539422/233231312-c5ba293d-c8a9-4e68-896b-d745933fcfa0.png)
+
 ## Reference
 
 <https://debezium.io/blog/2017/09/25/streaming-to-another-database/>
 
 <https://debezium.io/documentation/reference/2.1/tutorial.html>
+
+<https://debezium.io/documentation/reference/stable/transformations/event-flattening.html>
 
 <https://docs.confluent.io/kafka-connectors/jdbc/current/sink-connector/overview.html>
