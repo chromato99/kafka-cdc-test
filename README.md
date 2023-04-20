@@ -1,5 +1,7 @@
 # Kafka CDC test with docker compose
 
+![image](https://user-images.githubusercontent.com/20539422/233302688-2e35241a-2142-4939-9995-adba0b31d421.png)
+
 This is a simple test to show how to use Kafka CDC with docker compose.
 
 This is a test code for CDC for DB backup in MySQL to MySQL.
@@ -66,7 +68,6 @@ POST: localhost:8083/connectors
         "delete.enabled": "true",
         "insert.mode": "upsert",
         "pk.mode": "record_key",
-        "metadata.max.age.ms": 60000,
         "topics.regex": "dbserver1.testdb.(.*)",
         "table.name.format": "${topic}",
         "tombstones.on.delete": "true",
