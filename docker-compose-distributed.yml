@@ -1,51 +1,17 @@
 version: "3"
 services:
-  zookeeper1:
-    image: 'bitnami/zookeeper:latest'
-    ports:
-      - '2181'
-      - '2888'
-      - '3888'
-    environment:
-      - ZOO_SERVER_ID=1
-      - ZOO_SERVERS=0.0.0.0:2888:3888,zookeeper2:2888:3888,zookeeper3:2888:3888
-      - ALLOW_ANONYMOUS_LOGIN=yes
-
-  zookeeper2:
-    image: 'bitnami/zookeeper:latest'
-    ports:
-      - '2181'
-      - '2888'
-      - '3888'
-    environment:
-      - ZOO_SERVER_ID=2
-      - ZOO_SERVERS=zookeeper1:2888:3888,0.0.0.0:2888:3888,zookeeper3:2888:3888
-      - ALLOW_ANONYMOUS_LOGIN=yes
-
-  zookeeper3:
-    image: 'bitnami/zookeeper:latest'
-    ports:
-      - '2181'
-      - '2888'
-      - '3888'
-    environment:
-      - ZOO_SERVER_ID=3
-      - ZOO_SERVERS=zookeeper1:2888:3888,zookeeper2:2888:3888,0.0.0.0:2888:3888
-      - ALLOW_ANONYMOUS_LOGIN=yes
-
   kafka1:
     image: bitnami/kafka:latest
     ports:
       - '9092'
     environment:
       - KAFKA_CFG_BROKER_ID=1
-      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper1:2181,zookeeper2:2181,zookeeper3:2181
+      - KAFKA_CFG_NODE_ID=1
+      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=1@kafka1:9093,2@kafka2:9093,3@kafka3:9093
       - KAFKA_CFG_DEFAULT_REPLICATION_FACTOR=3
+      - KAFKA_KRAFT_CLUSTER_ID=abcdefghijklmnopqrstuv
       - ALLOW_PLAINTEXT_LISTENER=yes
-    depends_on:
-      - zookeeper1
-      - zookeeper2
-      - zookeeper3
+    restart: always
 
   kafka2:
     image: bitnami/kafka:latest
@@ -53,13 +19,12 @@ services:
       - '9092'
     environment:
       - KAFKA_CFG_BROKER_ID=2
-      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper1:2181,zookeeper2:2181,zookeeper3:2181
+      - KAFKA_CFG_NODE_ID=2
+      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=1@kafka1:9093,2@kafka2:9093,3@kafka3:9093
       - KAFKA_CFG_DEFAULT_REPLICATION_FACTOR=3
+      - KAFKA_KRAFT_CLUSTER_ID=abcdefghijklmnopqrstuv
       - ALLOW_PLAINTEXT_LISTENER=yes
-    depends_on:
-      - zookeeper1
-      - zookeeper2
-      - zookeeper3
+    restart: always
       
   kafka3:
     image: bitnami/kafka:latest
@@ -67,13 +32,12 @@ services:
       - '9092'
     environment:
       - KAFKA_CFG_BROKER_ID=3
-      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper1:2181,zookeeper2:2181,zookeeper3:2181
+      - KAFKA_CFG_NODE_ID=3
+      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=1@kafka1:9093,2@kafka2:9093,3@kafka3:9093
       - KAFKA_CFG_DEFAULT_REPLICATION_FACTOR=3
+      - KAFKA_KRAFT_CLUSTER_ID=abcdefghijklmnopqrstuv
       - ALLOW_PLAINTEXT_LISTENER=yes
-    depends_on:
-      - zookeeper1
-      - zookeeper2
-      - zookeeper3
+    restart: always
     
   mysql: 
     image: 
@@ -106,8 +70,8 @@ services:
       context: ./connector
     # image: debezium/connect:latest
     # volumes:
-    #   - ./connector/confluentinc-kafka-connect-jdbc-10.7.0:/kafka/connect/confluentinc-kafka-connect-jdbc-10.7.0
-    #   - ./connector/mysql-connector-j-8.0.32/mysql-connector-j-8.0.32.jar:/kafka/libs/mysql-connector-j-8.0.32.jar
+    #   - ./connector/confluentinc-kafka-connect-jdbc-10.7.1:/kafka/connect/confluentinc-kafka-connect-jdbc-10.7.1
+    #   - ./connector/mysql-connector-j-8.0.33/mysql-connector-j-8.0.33.jar:/kafka/libs/mysql-connector-j-8.0.33.jar
     ports:
         - 8083:8083 
     environment:
@@ -129,8 +93,8 @@ services:
       context: ./connector
     # image: debezium/connect:latest
     # volumes:
-    #   - ./connector/confluentinc-kafka-connect-jdbc-10.7.0:/kafka/connect/confluentinc-kafka-connect-jdbc-10.7.0
-    #   - ./connector/mysql-connector-j-8.0.32/mysql-connector-j-8.0.32.jar:/kafka/libs/mysql-connector-j-8.0.32.jar
+    #   - ./connector/confluentinc-kafka-connect-jdbc-10.7.1:/kafka/connect/confluentinc-kafka-connect-jdbc-10.7.1
+    #   - ./connector/mysql-connector-j-8.0.33/mysql-connector-j-8.0.33.jar:/kafka/libs/mysql-connector-j-8.0.33.jar
     ports:
         - 8084:8083 
     environment:

@@ -1,6 +1,8 @@
 # Kafka CDC test with docker compose
 
-![image](https://user-images.githubusercontent.com/20539422/233302688-2e35241a-2142-4939-9995-adba0b31d421.png)
+![image](https://github.com/KEA-ACCELER/SeoulDB_NodeJS_RawAPI/assets/20539422/b98efa67-6337-4b22-8722-5a983d1960c1)
+
+**This repository is updated to use kraft mode. (<https://developer.confluent.io/learn/kraft/>)
 
 This is a simple test to show how to use Kafka CDC with docker compose.
 
